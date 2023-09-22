@@ -1,5 +1,5 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext, useState } from "react";
 import FormInput from "../../components/formComponents/FormInput";
 import FormSelect from "../../components/formComponents/FormSelect";
 import { useFormik } from "formik";
@@ -7,6 +7,26 @@ import * as Yup from "yup";
 import { PageNumbers } from "../../interface/home";
 import { IRequisitionDetails } from "../../interface/forms";
 import { genderOptions, urgencyOptions } from "./constants";
+import { DataContext } from "./DataProvider";
+
+const initialValues = {
+  requisitionDetails: {
+    gender: "",
+    noOfOpenings: 0,
+    requisitionTitle: "",
+    urgency: "",
+  },
+  jobDetails: {
+    jobDetails: "",
+    jobLocation: "",
+    jobTitle: "",
+  },
+  interviewSettings: {
+    interviewDuration: "",
+    interviewLanguage: "",
+    interviewMode: "",
+  },
+};
 
 const RequisitionDetailsForm: React.FC<{
   handleTab: (n: PageNumbers) => void;
@@ -22,12 +42,7 @@ const RequisitionDetailsForm: React.FC<{
     setFieldValue,
     isValid,
   } = useFormik<IRequisitionDetails>({
-    initialValues: {
-      requisitionTitle: "",
-      noOfOpenings: 0,
-      urgency: "",
-      gender: "",
-    },
+    initialValues: initialValues.requisitionDetails,
     validationSchema: Yup.object().shape({
       requisitionTitle: Yup.string().required("Requisition title is required"),
       noOfOpenings: Yup.number()
@@ -42,6 +57,29 @@ const RequisitionDetailsForm: React.FC<{
       handleTab(1);
     },
   });
+  // const [initialValues, setInitialValues] = useState(initialValues);
+  console.log(DataContext);
+  const data = useContext(DataContext);
+  console.log(data?.state);
+  const handleUpdateRequisitionDetails = () => {
+    const newRequisitionDetails = {
+      gender: "m",
+      noOfOpenings: 5,
+      requisitionTitle: "New Title",
+      urgency: "0",
+    };
+    data?.setState((prevState) => ({
+      ...prevState,
+      requisitionDetails: newRequisitionDetails,
+    }));
+    console.log("hello", data?.state);
+  };
+
+  // const data1 =
+  // data?.setState()
+  // console.log(data?.setState({ ...prev, }));
+
+  // console.log(useData);
 
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
@@ -89,7 +127,11 @@ const RequisitionDetailsForm: React.FC<{
           value={values.urgency}
         />
         <Flex w="100%" justify="flex-end" mt="4rem">
-          <Button colorScheme="red" type="submit">
+          <Button
+            colorScheme="red"
+            type="submit"
+            onClick={handleUpdateRequisitionDetails}
+          >
             Next
           </Button>
         </Flex>

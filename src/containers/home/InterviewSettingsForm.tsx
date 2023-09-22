@@ -9,6 +9,27 @@ import {
   interviewLanguageOptions,
   interviewModeOptions,
 } from "./constants";
+import * as Yup from "yup";
+import { IJobDetails } from "../../interface/forms";
+
+const initialValues = {
+  requisitionDetails: {
+    gender: "",
+    noOfOpenings: 0,
+    requisitionTitle: "",
+    urgency: "",
+  },
+  jobDetails: {
+    jobDetails: "",
+    jobLocation: "",
+    jobTitle: "",
+  },
+  interviewSettings: {
+    interviewDuration: "",
+    interviewLanguage: "",
+    interviewMode: "",
+  },
+};
 
 const InterviewDetailsForm: React.FC<{
   handleTab: (n: PageNumbers) => void;
@@ -21,13 +42,15 @@ const InterviewDetailsForm: React.FC<{
     setFieldTouched,
     setFieldValue,
   } = useFormik<IInterViewSettings>({
-    initialValues: {
-      interviewMode: "",
-      interviewDuration: "",
-      interviewLanguage: "",
-    },
+    initialValues: initialValues.interviewSettings,
+    validationSchema: Yup.object().shape({
+      interviewDuration: Yup.string().required("Job Title is required"),
+      interviewLanguage: Yup.string().required("Job Details is required"),
+      interviewMode: Yup.string().required("Job Location is required"),
+      // jobPosition: Yup.string().required("Job position is required"),
+    }),
     onSubmit: (values) => {
-      console.log({ values });
+      // console.log({ values });
       alert("Form successfully submitted");
     },
   });

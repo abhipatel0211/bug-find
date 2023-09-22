@@ -19,7 +19,7 @@ const initialValues = {
   },
 };
 
-const DataContext = createContext<{
+export const DataContext = createContext<{
   state: typeof initialValues;
   setState: React.Dispatch<React.SetStateAction<typeof initialValues>>;
 } | null>(null);
@@ -36,8 +36,8 @@ const DataProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export const useData = () => {
-  return useContext(DataContext);
-};
+// export const useData = () => {
+//   return DataContext;
+// };
 
 export default DataProvider;
