@@ -1,5 +1,5 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import FormSelect from "../../components/formComponents/FormSelect";
 import { useFormik } from "formik";
 import { PageNumbers } from "../../interface/home";
@@ -11,19 +11,9 @@ import {
 } from "./constants";
 import * as Yup from "yup";
 import { IJobDetails } from "../../interface/forms";
+import { DataContext } from "./DataProvider";
 
 const initialValues = {
-  requisitionDetails: {
-    gender: "",
-    noOfOpenings: 0,
-    requisitionTitle: "",
-    urgency: "",
-  },
-  jobDetails: {
-    jobDetails: "",
-    jobLocation: "",
-    jobTitle: "",
-  },
   interviewSettings: {
     interviewDuration: "",
     interviewLanguage: "",
@@ -44,9 +34,11 @@ const InterviewDetailsForm: React.FC<{
   } = useFormik<IInterViewSettings>({
     initialValues: initialValues.interviewSettings,
     validationSchema: Yup.object().shape({
-      interviewDuration: Yup.string().required("Job Title is required"),
-      interviewLanguage: Yup.string().required("Job Details is required"),
-      interviewMode: Yup.string().required("Job Location is required"),
+      interviewDuration: Yup.string().required("Interviw Duration required"),
+      interviewLanguage: Yup.string().required(
+        "interview Language is required"
+      ),
+      interviewMode: Yup.string().required("interview Mode is required"),
       // jobPosition: Yup.string().required("Job position is required"),
     }),
     onSubmit: (values) => {
@@ -54,6 +46,22 @@ const InterviewDetailsForm: React.FC<{
       alert("Form successfully submitted");
     },
   });
+
+  console.log(DataContext);
+  const data = useContext(DataContext);
+  console.log(data?.state);
+  const [newInterViewSettings, setNewInterViewSettings] = useState({
+    interviewDuration: "",
+    interviewLanguage: "",
+    interviewMode: "",
+  });
+  useEffect(() => {
+    data?.setState((prevState) => ({
+      ...prevState,
+      interviewSettings: newInterViewSettings,
+    }));
+    console.log("hellooooootest here", data?.state);
+  }, [newInterViewSettings]);
 
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
@@ -63,7 +71,16 @@ const InterviewDetailsForm: React.FC<{
           placeholder="Select interview mode"
           name="interviewMode"
           options={interviewModeOptions}
-          onChange={setFieldValue}
+          onChange={(e: any) => {
+            console.log("hellooooooooo", e);
+            setFieldValue("interviewMode", e);
+            console.log("hellooooooooo", e);
+            setNewInterViewSettings((prevDetails) => ({
+              ...prevDetails,
+              interviewMode: e,
+            }));
+            console.log("hellooolast here", e);
+          }}
           onBlur={setFieldTouched}
           value={values?.interviewMode}
           error={errors?.interviewMode}
@@ -74,18 +91,30 @@ const InterviewDetailsForm: React.FC<{
           placeholder="Select interview duration"
           name="interviewDuration"
           options={interviewDurationOptions}
-          onChange={setFieldValue}
+          onChange={(e: any) => {
+            setFieldValue("interviewDuration", e);
+            setNewInterViewSettings((prevDetails) => ({
+              ...prevDetails,
+              interviewDuration: e,
+            }));
+          }}
           onBlur={setFieldTouched}
           value={values?.interviewDuration}
           error={errors?.interviewDuration}
           touched={touched?.interviewDuration}
         />
         <FormSelect
-          label="Job Location"
+          label="Interview Language"
           name="interviewLanguage"
           placeholder="Select interview language"
           options={interviewLanguageOptions}
-          onChange={setFieldValue}
+          onChange={(e: any) => {
+            setFieldValue("interviewLanguage", e);
+            setNewInterViewSettings((prevDetails) => ({
+              ...prevDetails,
+              interviewLanguage: e,
+            }));
+          }}
           onBlur={setFieldTouched}
           error={errors.interviewLanguage}
           touched={touched.interviewLanguage}
