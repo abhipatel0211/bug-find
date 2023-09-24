@@ -47,27 +47,7 @@ const RequisitionDetailsForm: React.FC<{
       handleTab(1);
     },
   });
-  // const [initialValues, setInitialValues] = useState(initialValues);
-
-  console.log(DataContext);
   const data = useContext(DataContext);
-  console.log(data?.state);
-  // const handleUpdateRequisitionDetails = (e :any,x:number) => {
-  //   const newRequisitionDetails = {
-  //     gender: "",
-  //     noOfOpenings: 0,
-  //     requisitionTitle: "New Title",
-  //     urgency: "0",
-  // };
-  // const [selectedValue, setSelectedValue] = useState("");
-
-  // const handleSelectChange = (value: any) => {
-  //   setSelectedValue(value);
-  //   data?.setState((prevState) => ({
-  //     ...prevState,
-  //     requisitionDetails: newRequisitionDetails,
-  //   }));
-  // };
   const [newRequisitionDetails, setNewRequisitionDetails] = useState({
     gender: "",
     noOfOpenings: 0,
@@ -79,7 +59,6 @@ const RequisitionDetailsForm: React.FC<{
       ...prevState,
       requisitionDetails: newRequisitionDetails,
     }));
-    console.log("hello", data?.state);
   }, [newRequisitionDetails]);
 
   return (

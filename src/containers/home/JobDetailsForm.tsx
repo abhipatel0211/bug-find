@@ -35,19 +35,10 @@ const JobDetailsForm: React.FC<{
       // jobPosition: Yup.string().required("Job position is required"),
     }),
     onSubmit: (values) => {
-      // console.log(values, "hello   heeeeeeeeeeeeeeeere");
-      // if (
-      //   values.jobDetails != "" ||
-      //   values.jobLocation != "" ||
-      //   values.jobTitle != ""
-      // ) {
       handleTab(2);
-      // }
     },
   });
-  console.log(DataContext);
   const data = useContext(DataContext);
-  console.log(data?.state);
   const [newjobDetails, setNewjobDetails] = useState({
     jobDetails: "",
     jobLocation: "",
@@ -58,7 +49,6 @@ const JobDetailsForm: React.FC<{
       ...prevState,
       jobDetails: newjobDetails,
     }));
-    console.log("hello", data?.state);
   }, [newjobDetails]);
 
   return (

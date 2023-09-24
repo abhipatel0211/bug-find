@@ -34,7 +34,6 @@ const HomeLayout = () => {
   };
 
   const data = useContext(DataContext);
-  console.log(data, "from homelayout");
 
   return (
     <Box w="100%">

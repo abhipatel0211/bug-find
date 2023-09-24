@@ -42,14 +42,10 @@ const InterviewDetailsForm: React.FC<{
       // jobPosition: Yup.string().required("Job position is required"),
     }),
     onSubmit: (values) => {
-      // console.log({ values });
       alert("Form successfully submitted");
     },
   });
-
-  console.log(DataContext);
   const data = useContext(DataContext);
-  console.log(data?.state);
   const [newInterViewSettings, setNewInterViewSettings] = useState({
     interviewDuration: "",
     interviewLanguage: "",
@@ -60,7 +56,6 @@ const InterviewDetailsForm: React.FC<{
       ...prevState,
       interviewSettings: newInterViewSettings,
     }));
-    console.log("hellooooootest here", data?.state);
   }, [newInterViewSettings]);
 
   return (
@@ -72,14 +67,11 @@ const InterviewDetailsForm: React.FC<{
           name="interviewMode"
           options={interviewModeOptions}
           onChange={(e: any) => {
-            console.log("hellooooooooo", e);
             setFieldValue("interviewMode", e);
-            console.log("hellooooooooo", e);
             setNewInterViewSettings((prevDetails) => ({
               ...prevDetails,
               interviewMode: e,
             }));
-            console.log("hellooolast here", e);
           }}
           onBlur={setFieldTouched}
           value={values?.interviewMode}
